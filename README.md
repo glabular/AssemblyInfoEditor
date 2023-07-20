@@ -16,6 +16,6 @@ Build the AssemblyInfoManager project using Visual Studio or your preferred C# I
 Open a console or terminal window.
 Navigate to the folder containing the AssemblyInfoManager executable.
 Run the AssemblyInfoManager executable with the following command:
-```  AssemblyInfoManager.exe "C:\Users\YourUserName\Documents\YourProjectFolder"```
+```AssemblyInfoManager.exe "C:\Users\YourUserName\Documents\YourProjectFolder"```
 
 The tool will automatically move 'InternalsVisibleTo' attributes to the project file and perform the required clean-up.
