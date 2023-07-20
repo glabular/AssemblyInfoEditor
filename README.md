@@ -1,4 +1,4 @@
-# AssemblyInfoEditor
+# AssemblyInfo Editor
 ## Overview
 AssemblyInfoManager is a tool designed to help manage 'InternalsVisibleTo' attributes in C# projects by moving them from the 'AssemblyInfo.cs' file to the project file. This tool simplifies the management of 'InternalsVisibleTo' attributes and ensures consistency across projects.
 
