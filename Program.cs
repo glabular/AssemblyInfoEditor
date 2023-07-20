@@ -10,7 +10,7 @@ internal class Program
     {
         if (args.Length == 0)
         {
-            Console.WriteLine("No arguments! Try again.");
+            Console.WriteLine("No arguments! You should specify root folder as argument.");
             return;
         }
 
@@ -18,7 +18,7 @@ internal class Program
 
         if (string.IsNullOrEmpty(_mainFolder))
         {
-            Console.WriteLine("The argument was empty! Try again.");
+            Console.WriteLine("The argument was empty! You should specify root folder as argument.");
             return;
         }
 
@@ -49,7 +49,7 @@ internal class Program
             var propertiesFolder = Path.Combine(projectFolderPath, "properties");
             var assemblyInfoFilePath = Path.Combine(propertiesFolder, "AssemblyInfo.cs");
             var projectName = Path.GetFileNameWithoutExtension(csprojFilePath);
-            ConsoleOutput($"Processing project № {globalCounter}: {projectName}");
+            ConsoleOutput($"Processing project #{globalCounter}: {projectName}");
 
             var linesToNewProjectFile = new List<string>();
             var linesToNewAssemblyinfoFile = new List<string>();
@@ -95,7 +95,7 @@ internal class Program
                     if (!isFileEmpty)
                     {
                         CreateNewAssemblyinfoFile(assemblyInfoFilePath, linesToNewAssemblyinfoFile);
-                        ConsoleOutput($"New AssemblyInfo.cs file created: {assemblyInfoFilePath}");
+                        ConsoleOutput($"AssemblyInfo.cs file updated: {assemblyInfoFilePath}");
                     }
                 }
 
@@ -161,7 +161,6 @@ internal class Program
 
     private static void CreateNewProjectFile(string projectFolderPath, string projectName, List<string> linesToAddToProjectFile)
     {
-        ConsoleOutput("Creating new project file");
         var csprojFilePath = Path.Combine(projectFolderPath, $"{projectName}.csproj");
         var projectFileText = File.ReadAllLines(csprojFilePath);
         var editedProjectFile = new List<string>();
@@ -193,11 +192,10 @@ internal class Program
         }
 
         var result = editedProjectFile.ToArray();
-        ConsoleOutput($"Lines added to the new project file: {result.Length}");
 
         //File.WriteAllLines method will overwrite an existing file if it already exists.
         File.WriteAllLines(Path.Combine(csprojFilePath), result);
-        Console.WriteLine($"File created: {csprojFilePath}");
+        Console.WriteLine($"Project file updated: {csprojFilePath}");
 
         static List<string> GetAssemblyAtribute(string anotherProjectName)
         {
