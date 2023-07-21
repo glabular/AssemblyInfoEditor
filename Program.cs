@@ -10,7 +10,7 @@ internal class Program
     {
         if (args.Length == 0)
         {
-            Console.WriteLine("No arguments! You should specify root folder as argument.");
+            Console.WriteLine("No arguments provided! You should specify the root folder as an argument.");
             return;
         }
 
@@ -18,18 +18,18 @@ internal class Program
 
         if (string.IsNullOrEmpty(_mainFolder))
         {
-            Console.WriteLine("The argument was empty! You should specify root folder as argument.");
+            Console.WriteLine("The argument was empty! You should specify the root folder as an argument.");
             return;
         }
 
         if (!Directory.Exists(_mainFolder))
         {
-            Console.WriteLine("The folder does not exist! Try again.");
+            Console.WriteLine("The folder does not exist! Please, try again.");
             return;
         }
 
-        Console.WriteLine($"Main folder is set: {_mainFolder}");
-        Console.WriteLine("Press enter...");
+        Console.WriteLine($"Main folder is set to: {_mainFolder}");
+        Console.WriteLine("Press Enter...");
         Console.ReadLine();
 
         ConsoleOutput("Searching for project files");
@@ -50,6 +50,15 @@ internal class Program
             var assemblyInfoFilePath = Path.Combine(propertiesFolder, "AssemblyInfo.cs");
             var projectName = Path.GetFileNameWithoutExtension(csprojFilePath);
             ConsoleOutput($"Processing project #{globalCounter}: {projectName}");
+
+            var projectFileText = File.ReadAllLines(csprojFilePath);
+
+            if (!projectFileText[0].StartsWith("<Project Sdk="))
+            {
+                ConsoleOutput($"The project is non-SDK.");
+                Console.WriteLine();
+                continue;
+            }
 
             var linesToNewProjectFile = new List<string>();
             var linesToNewAssemblyinfoFile = new List<string>();
@@ -78,7 +87,7 @@ internal class Program
 
                 if (linesToNewProjectFile.Count != 0)
                 {
-                    CreateNewProjectFile(projectFolderPath, projectName, linesToNewProjectFile);
+                    CreateNewProjectFile(projectFileText, csprojFilePath, linesToNewProjectFile);                    
                 }
 
                 var canDeleteAssemblyInfo = !linesToNewAssemblyinfoFile.Any(line => !string.IsNullOrEmpty(line) && !line.StartsWith("using "));
@@ -108,7 +117,7 @@ internal class Program
             }
             else
             {
-                ConsoleOutput($"AssemblyInfo.cs does NOT exist in {projectName}");
+                ConsoleOutput($"AssemblyInfo.cs doen't exist in {projectName}");
             }
 
             Console.WriteLine();
@@ -159,10 +168,8 @@ internal class Program
         return !Directory.GetFiles(assemblyInfoFolder).Any();
     }    
 
-    private static void CreateNewProjectFile(string projectFolderPath, string projectName, List<string> linesToAddToProjectFile)
+    private static void CreateNewProjectFile(string[] projectFileText, string csprojFilePath, List<string> linesToAddToProjectFile)
     {
-        var csprojFilePath = Path.Combine(projectFolderPath, $"{projectName}.csproj");
-        var projectFileText = File.ReadAllLines(csprojFilePath);
         var editedProjectFile = new List<string>();
 
         for (int i = 0; i < projectFileText.Length; i++)
@@ -194,7 +201,7 @@ internal class Program
         var result = editedProjectFile.ToArray();
 
         //File.WriteAllLines method will overwrite an existing file if it already exists.
-        File.WriteAllLines(Path.Combine(csprojFilePath), result);
+        File.WriteAllLines(csprojFilePath, result);
         Console.WriteLine($"Project file updated: {csprojFilePath}");
 
         static List<string> GetAssemblyAtribute(string anotherProjectName)
