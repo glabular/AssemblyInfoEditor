@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using AssemblyInfoEditor;
+using System.IO;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -71,13 +72,12 @@ internal class Program
 
                 for (int i = 0; i < assemblyInfoFileContent.Count; i++)
                 {
-                    var fork = GoesToProjectFileOrAssemblyinfoFile(assemblyInfoFileContent[i]);
-                    switch (fork)
+                    switch (GoesToProjectFileOrAssemblyinfoFile(assemblyInfoFileContent[i]))
                     {
-                        case 0:
+                        case FileDestination.ProjectFile:
                             linesToNewProjectFile.Add(assemblyInfoFileContent[i]);
                             break;
-                        case 1:
+                        case FileDestination.AssemblyInfoFile:
                             linesToNewAssemblyinfoFile.Add(assemblyInfoFileContent[i]);
                             break;
                         default:
@@ -124,27 +124,24 @@ internal class Program
         }
     }
 
-    private static int GoesToProjectFileOrAssemblyinfoFile(string lineToCheck)
+    private static FileDestination GoesToProjectFileOrAssemblyinfoFile(string lineToCheck)
     {
-        // return 0 - PROJECT FILE
-        // return 1 - ASSEMBLYINFO FILE
-
         if (lineToCheck.Contains("[assembly: InternalsVisibleTo("))
         {
-            return 0;
+            return FileDestination.ProjectFile;
         }
 
         if (lineToCheck.Contains("[assembly: AssemblyTitle("))
         {
-            return -1;
+            return FileDestination.Other;
         }
 
         if (lineToCheck.Contains("[assembly: Guid("))
         {
-            return -1;
+            return FileDestination.Other;
         }
 
-        return 1;
+        return FileDestination.AssemblyInfoFile;
     }
 
     private static void CreateNewAssemblyinfoFile(string assemblyInfoFilePath, List<string> assemblyInfoFileContent)
