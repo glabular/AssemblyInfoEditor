@@ -1,6 +1,6 @@
 # AssemblyInfo Editor
 ## Overview
-AssemblyInfoEditor is a tool designed to help manage 'InternalsVisibleTo' attributes in C# projects by moving them from the 'AssemblyInfo.cs' file to the project file. This tool simplifies the management of 'InternalsVisibleTo' attributes.
+AssemblyInfoEditor is a tool designed to help manage 'InternalsVisibleTo' attributes in C# projects by moving them from the 'AssemblyInfo.cs' file to the project file.
 
 ## Features
 Moves InternalsVisibleTo attribute from AssemblyInfo.cs into SDK-style project file.  
