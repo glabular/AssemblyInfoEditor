@@ -12,10 +12,4 @@ Clone this repository to your local machine.
 Build the AssemblyInfoEditor project using Visual Studio or your preferred C# IDE.
 
 ## Usage
-Open a console or terminal window.
-Navigate to the folder containing the AssemblyInfoEditor executable.
-Run the AssemblyInfoEditor executable with the following command:
-
-```AssemblyInfoEditor.exe "C:\Users\YourUserName\Documents\YourProjectFolder"```
-
-The tool will automatically move 'InternalsVisibleTo' attributes to the project file and perform the required clean-up.
+Run the AssemblyInfoEditor executable and follow thw on-screen commands.
