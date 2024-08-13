@@ -12,4 +12,4 @@ Clone this repository to your local machine.
 Build the AssemblyInfoEditor project using Visual Studio or your preferred C# IDE.
 
 ## Usage
-Run the AssemblyInfoEditor executable and follow thw on-screen commands.
+Run the AssemblyInfoEditor executable and follow the on-screen commands.
