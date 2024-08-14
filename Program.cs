@@ -172,7 +172,6 @@ internal class Program
             if (CanPropertiesFolderBeDeleted(project.PropertiesFolderPath))
             {
                 Directory.Delete(project.PropertiesFolderPath);
-
                 ConsoleOutput($"Folder deleted: {project.PropertiesFolderPath}");
             }
         }
